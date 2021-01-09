@@ -17,7 +17,7 @@ audioFiles = os.listdir(audioPath)
 awsS3Resource = AwsS3Resource()
 
 def runDevice(num):
-    deviceUUID = uuid.uuid1().__str__()
+    deviceUUID = uuid.uuid4().__str__()
     print('Device "{}" and UUID "{}" Job started'.format(num, deviceUUID))
     now = datetime.now(tz=tz.tzlocal())
     date_time = now.strftime("%Y-%m-%dT%H:%M:%SZ%z")
@@ -34,7 +34,7 @@ def runDevice(num):
     }
 
     for i in range(0, maxAudios):
-        currentAudioUUID = uuid.uuid1().__str__()
+        currentAudioUUID = uuid.uuid4().__str__()
         audioAbsPath = audioPath+"/"+audioFiles[i]
         awsS3Resource.uploadData(audioAbsPath, currentAudioUUID, devInfo)
         print('Device "{}" send Audio number "{}" and UUID "{}"'.format(num, i, currentAudioUUID))
