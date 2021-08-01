@@ -28,14 +28,15 @@ def runDevice(num):
             "description": "Calle {} N. {}-{}".format(random.randint(1, 100),
                                                       random.randint(1, 100),
                                                       random.randint(1, 100)),
-            "time": date_time
+            "time": date_time,
+            "index_name": "audio_result"
         }
     }
 
     for i in range(0, maxAudios):
         currentAudioUUID = uuid.uuid4().__str__()
         audioAbsPath = audioPath+"/"+audioFiles[i]
-        devInfo['Metadata']['audio_uuid'] = currentAudioUUID
+        devInfo['Metadata']['data_uuid'] = currentAudioUUID
         awsS3Resource.uploadData(audioAbsPath, currentAudioUUID, devInfo)
         print('Device "{}" send Audio number "{}" and UUID "{}"'.format(num, i, currentAudioUUID))
         sleep(interval)
