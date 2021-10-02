@@ -18,8 +18,6 @@ awsS3Resource = AwsS3Resource()
 def runDevice(num):
     deviceUUID = uuid.uuid4().__str__()
     print('Device "{}" and UUID "{}" Job started'.format(num, deviceUUID))
-    now = datetime.now(tz=tz.tzutc())
-    date_time = now.strftime("%Y-%m-%dT%H:%M:%S")
     devInfo = {
         'Metadata': {
             "id": deviceUUID,
@@ -28,7 +26,6 @@ def runDevice(num):
             "description": "Calle {} N. {}-{}".format(random.randint(1, 100),
                                                       random.randint(1, 100),
                                                       random.randint(1, 100)),
-            "time": date_time,
             "index_name": "audio_result"
         }
     }
@@ -37,6 +34,9 @@ def runDevice(num):
         currentAudioUUID = uuid.uuid4().__str__()
         audioAbsPath = audioPath+"/"+audioFiles[i]
         devInfo['Metadata']['data_uuid'] = currentAudioUUID
+        now = datetime.now(tz=tz.tzutc())
+        date_time = now.strftime("%Y-%m-%dT%H:%M:%S")
+        devInfo['Metadata']['time'] = date_time
         awsS3Resource.uploadData(audioAbsPath, currentAudioUUID, devInfo)
         print('Device "{}" send Audio number "{}" and UUID "{}"'.format(num, i, currentAudioUUID))
         sleep(interval)
